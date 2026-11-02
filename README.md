@@ -35,16 +35,23 @@ npm test
 
 Test tidak membutuhkan database karena memakai repository in-memory (lihat bagian Arsitektur).
 
+### Kualitas Kode
+
+```bash
+npm run lint           # ESLint
+npm run format:check   # Prettier
+```
+
 ## Endpoint
 
 Base URL: `/api/v1`. Dokumentasi interaktif (OpenAPI/Swagger) tersedia di **`/docs`**.
 
-| Method | Path             | Auth   | Keterangan                          |
-|--------|------------------|--------|-------------------------------------|
+| Method | Path             | Auth   | Keterangan                            |
+| ------ | ---------------- | ------ | ------------------------------------- |
 | POST   | `/auth/register` | -      | Membuat akun, langsung mendapat token |
-| POST   | `/auth/login`    | -      | Login, mendapat token               |
-| GET    | `/users/me`      | Bearer | Profil user yang sedang login       |
-| GET    | `/health`        | -      | Health check (di luar `/api/v1`)    |
+| POST   | `/auth/login`    | -      | Login, mendapat token                 |
+| GET    | `/users/me`      | Bearer | Profil user yang sedang login         |
+| GET    | `/health`        | -      | Health check (di luar `/api/v1`)      |
 
 ### Contoh
 
@@ -84,14 +91,14 @@ Error (format sama di seluruh endpoint):
 }
 ```
 
-| Status | Code                    | Kapan                                         |
-|--------|-------------------------|-----------------------------------------------|
-| 400    | `VALIDATION_ERROR`      | Input tidak valid atau JSON rusak             |
-| 401    | `UNAUTHORIZED`          | Kredensial salah, token tidak ada/invalid/expired |
+| Status | Code                    | Kapan                                                  |
+| ------ | ----------------------- | ------------------------------------------------------ |
+| 400    | `VALIDATION_ERROR`      | Input tidak valid atau JSON rusak                      |
+| 401    | `UNAUTHORIZED`          | Kredensial salah, token tidak ada/invalid/expired      |
 | 404    | `NOT_FOUND`             | Route tidak ada, atau user pemilik token sudah dihapus |
-| 409    | `CONFLICT`              | Email sudah terdaftar                         |
-| 429    | -                       | Terlalu banyak percobaan register/login       |
-| 500    | `INTERNAL_SERVER_ERROR` | Error tak terduga (detail hanya di log server) |
+| 409    | `CONFLICT`              | Email sudah terdaftar                                  |
+| 429    | -                       | Terlalu banyak percobaan register/login                |
+| 500    | `INTERNAL_SERVER_ERROR` | Error tak terduga (detail hanya di log server)         |
 
 ## Arsitektur
 

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -18,7 +18,6 @@ const openApiDoc = YAML.parse(
   fs.readFileSync(path.join(__dirname, 'docs', 'openapi.yaml'), 'utf8'),
 );
 
-
 function createApp({ userRepository, passwordHasher, tokenService, enableRateLimit = true }) {
   const app = express();
 
@@ -26,14 +25,21 @@ function createApp({ userRepository, passwordHasher, tokenService, enableRateLim
   app.use(cors());
   app.use(express.json({ limit: '10kb' }));
 
+  
   const rateLimiter = enableRateLimit
-    ? rateLimit({ windowMs: 15 * 60 * 1000, limit: 20, standardHeaders: 'draft-7', legacyHeaders: false })
+    ? rateLimit({
+        windowMs: 15 * 60 * 1000,
+        limit: 20,
+        standardHeaders: 'draft-7',
+        legacyHeaders: false,
+      })
     : (_req, _res, next) => next();
 
   const authService = createAuthService({ userRepository, passwordHasher, tokenService });
   const userService = createUserService({ userRepository });
   const authenticate = authenticateMiddleware(tokenService);
 
+  
   app.get('/', (_req, res) => res.redirect('/docs'));
   app.get('/health', (_req, res) => res.json({ status: 'ok' }));
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApiDoc));

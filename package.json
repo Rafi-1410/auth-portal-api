@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "REST API portal autentikasi (register, login, profile) dengan Express, PostgreSQL, dan JWT",
   "main": "src/server.js",
-  "directories": {
-    "test": "tests"
-  },
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "migrate": "node src/db/migrate.js",
-    "test": "jest --runInBand"
+    "test": "jest --runInBand",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "license": "MIT",
   "dependencies": {
@@ -27,7 +27,11 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "globals": "^16.5.0",
     "jest": "^30.5.2",
+    "prettier": "^3.9.10",
     "supertest": "^7.3.1"
   },
   "engines": {

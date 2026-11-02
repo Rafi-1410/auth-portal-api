@@ -23,7 +23,11 @@ describe('POST /api/v1/auth/register', () => {
     expect(res.status).toBe(201);
     expect(res.body.success).toBe(true);
     expect(res.body.data.accessToken).toEqual(expect.any(String));
-    expect(res.body.data.user).toMatchObject({ name: 'Budi Santoso', email: 'budi@example.com', gender: 'male' });
+    expect(res.body.data.user).toMatchObject({
+      name: 'Budi Santoso',
+      email: 'budi@example.com',
+      gender: 'male',
+    });
     expect(res.body.data.user).not.toHaveProperty('passwordHash');
     expect(res.body.data.user).not.toHaveProperty('password');
   });
@@ -116,14 +120,18 @@ describe('GET /api/v1/users/me', () => {
 
   it('menolak token yang sudah kedaluwarsa', async () => {
     const expired = jwt.sign({}, TEST_SECRET, { subject: 'abc', expiresIn: -10 });
-    const res = await request(app).get('/api/v1/users/me').set('Authorization', `Bearer ${expired}`);
+    const res = await request(app)
+      .get('/api/v1/users/me')
+      .set('Authorization', `Bearer ${expired}`);
     expect(res.status).toBe(401);
     expect(res.body.error.message).toBe('Token expired');
   });
 
   it('menolak token dengan algoritma "none"', async () => {
     const unsigned = jwt.sign({}, null, { subject: 'abc', algorithm: 'none' });
-    const res = await request(app).get('/api/v1/users/me').set('Authorization', `Bearer ${unsigned}`);
+    const res = await request(app)
+      .get('/api/v1/users/me')
+      .set('Authorization', `Bearer ${unsigned}`);
     expect(res.status).toBe(401);
   });
 });

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 const pool = require('./pool');
 
 const MIGRATIONS_DIR = path.join(__dirname, '..', '..', 'db', 'migrations');
@@ -26,6 +26,7 @@ async function migrate() {
       if (applied.has(file)) continue;
 
       const sql = fs.readFileSync(path.join(MIGRATIONS_DIR, file), 'utf8');
+  
       await client.query('BEGIN');
       try {
         await client.query(sql);

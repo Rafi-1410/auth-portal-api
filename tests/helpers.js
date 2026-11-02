@@ -1,4 +1,4 @@
-const { randomUUID } = require('crypto');
+const { randomUUID } = require('node:crypto');
 const { createApp } = require('../src/app');
 const { createPasswordHasher } = require('../src/utils/password');
 const { createTokenService } = require('../src/utils/token');
@@ -16,7 +16,15 @@ function createInMemoryUserRepository() {
         throw err;
       }
       const now = new Date();
-      const user = { id: randomUUID(), name, email, gender, passwordHash, createdAt: now, updatedAt: now };
+      const user = {
+        id: randomUUID(),
+        name,
+        email,
+        gender,
+        passwordHash,
+        createdAt: now,
+        updatedAt: now,
+      };
       users.set(user.id, user);
       return user;
     },

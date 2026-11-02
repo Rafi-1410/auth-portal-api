@@ -7,18 +7,20 @@ function notFound(req, _res, next) {
 
 function errorHandler(err, _req, res, _next) {
   
-  if (err.type === 'entity.parse.failed') {
-    err = AppError.badRequest('Malformed JSON body');
-  }
+  const error =
+    err.type === 'entity.parse.failed' ? AppError.badRequest('Malformed JSON body') : err;
 
-  if (err instanceof AppError) {
-    return res.status(err.statusCode).json({
+  if (error instanceof AppError) {
+    return res.status(error.statusCode).json({
       success: false,
-      error: { code: err.code, message: err.message, ...(err.details && { details: err.details }) },
+      error: {
+        code: error.code,
+        message: error.message,
+        ...(error.details && { details: error.details }),
+      },
     });
   }
 
-  // Error tak terduga: log lengkap di server, balas generik ke client.
   console.error(err);
   return res.status(500).json({
     success: false,
