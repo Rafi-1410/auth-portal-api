@@ -1,9 +1,3 @@
-/**
- * Konfigurasi terpusat.
- * Semua environment variable dibaca dan divalidasi di satu tempat, sehingga
- * aplikasi gagal cepat (fail fast) saat start jika konfigurasi tidak lengkap,
- * bukan gagal diam-diam di tengah request.
- */
 require('dotenv').config({ quiet: true });
 const { z } = require('zod');
 

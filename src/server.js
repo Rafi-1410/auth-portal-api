@@ -11,7 +11,6 @@ const app = createApp({
   tokenService: createTokenService({ secret: env.JWT_SECRET, expiresIn: env.JWT_EXPIRES_IN }),
 });
 
-// Diperlukan agar rate limiter membaca IP asli saat berada di belakang proxy (Heroku/Nginx).
 app.set('trust proxy', 1);
 
 const server = app.listen(env.PORT, () => {
@@ -19,7 +18,7 @@ const server = app.listen(env.PORT, () => {
   console.log(`API docs at http://localhost:${env.PORT}/docs`);
 });
 
-// Graceful shutdown: selesaikan request yang sedang berjalan dan tutup pool DB.
+
 function shutdown(signal) {
   console.log(`${signal} received, shutting down...`);
   server.close(() => pool.end().then(() => process.exit(0)));

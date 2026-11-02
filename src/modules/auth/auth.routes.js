@@ -2,11 +2,7 @@ const { Router } = require('express');
 const validate = require('../../middlewares/validate');
 const { registerSchema, loginSchema } = require('./auth.schema');
 
-/**
- * Route handler sengaja tipis: validasi -> panggil service -> kirim response.
- * Express 5 otomatis meneruskan error dari async handler ke error handler,
- * jadi tidak perlu try/catch di setiap route.
- */
+
 function createAuthRouter({ authService, rateLimiter }) {
   const router = Router();
 

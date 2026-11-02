@@ -4,10 +4,7 @@ const { createPasswordHasher } = require('../src/utils/password');
 const { createTokenService } = require('../src/utils/token');
 const { UNIQUE_VIOLATION } = require('../src/modules/users/user.repository');
 
-/**
- * Repository palsu berbasis Map dengan kontrak yang sama seperti versi
- * PostgreSQL. Ini yang memungkinkan test berjalan tanpa database.
- */
+
 function createInMemoryUserRepository() {
   const users = new Map();
 

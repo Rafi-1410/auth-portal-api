@@ -18,12 +18,7 @@ const openApiDoc = YAML.parse(
   fs.readFileSync(path.join(__dirname, 'docs', 'openapi.yaml'), 'utf8'),
 );
 
-/**
- * Composition root: di sinilah semua dependency dirakit.
- * Fungsi ini menerima dependency dari luar (dependency injection), sehingga
- * server.js memberi repository PostgreSQL, sementara test memberi repository
- * in-memory tanpa perlu database sungguhan.
- */
+
 function createApp({ userRepository, passwordHasher, tokenService, enableRateLimit = true }) {
   const app = express();
 
@@ -31,7 +26,6 @@ function createApp({ userRepository, passwordHasher, tokenService, enableRateLim
   app.use(cors());
   app.use(express.json({ limit: '10kb' }));
 
-  // Membatasi percobaan login/register untuk mempersulit brute force.
   const rateLimiter = enableRateLimit
     ? rateLimit({ windowMs: 15 * 60 * 1000, limit: 20, standardHeaders: 'draft-7', legacyHeaders: false })
     : (_req, _res, next) => next();
@@ -40,6 +34,7 @@ function createApp({ userRepository, passwordHasher, tokenService, enableRateLim
   const userService = createUserService({ userRepository });
   const authenticate = authenticateMiddleware(tokenService);
 
+  app.get('/', (_req, res) => res.redirect('/docs'));
   app.get('/health', (_req, res) => res.json({ status: 'ok' }));
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApiDoc));
 

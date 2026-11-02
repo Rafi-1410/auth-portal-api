@@ -1,10 +1,3 @@
-/**
- * Migration runner sederhana.
- * Menjalankan file .sql di db/migrations secara berurutan dan mencatat yang
- * sudah dijalankan di tabel schema_migrations, sehingga aman dijalankan ulang.
- *
- * Pemakaian: npm run migrate
- */
 const fs = require('fs');
 const path = require('path');
 const pool = require('./pool');
@@ -33,7 +26,6 @@ async function migrate() {
       if (applied.has(file)) continue;
 
       const sql = fs.readFileSync(path.join(MIGRATIONS_DIR, file), 'utf8');
-      // Satu migration = satu transaksi: kalau gagal, tidak ada perubahan setengah jadi.
       await client.query('BEGIN');
       try {
         await client.query(sql);

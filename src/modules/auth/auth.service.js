@@ -2,11 +2,6 @@ const AppError = require('../../utils/AppError');
 const { UNIQUE_VIOLATION } = require('../users/user.repository');
 const { toPublicUser } = require('../users/user.presenter');
 
-/**
- * Business logic autentikasi. Service tidak tahu apa-apa soal HTTP
- * (req/res), sehingga mudah dites dan bisa dipakai ulang dari tempat lain.
- * Semua dependency di-inject, bukan di-require langsung.
- */
 function createAuthService({ userRepository, passwordHasher, tokenService }) {
   function buildAuthResult(user) {
     return {

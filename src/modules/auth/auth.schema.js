@@ -1,10 +1,4 @@
 const { z } = require('zod');
-
-/**
- * Asumsi: soal hanya menyebut nama, email, dan jenis kelamin, tetapi login
- * tidak mungkin aman tanpa kredensial, jadi password ditambahkan sebagai field wajib.
- * Jenis kelamin dibatasi ke "male" | "female" (lihat README bagian Asumsi).
- */
 const email = z
   .string({ error: 'email is required' })
   .trim()

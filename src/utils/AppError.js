@@ -1,8 +1,3 @@
-/**
- * Error yang "diharapkan" (bisa diprediksi) dan aman ditampilkan ke client.
- * Error lain yang tidak berupa AppError dianggap bug dan dibalas 500 generik
- * oleh error handler, supaya detail internal tidak bocor.
- */
 class AppError extends Error {
   constructor(statusCode, code, message, details) {
     super(message);
